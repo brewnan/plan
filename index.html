@@ -72,7 +72,7 @@
         title: "Tonight (10 hrs)",
         tasks: [
           "Tidy shop + set up sanding/painting/drilling stations",
-	  "Woodfill 4 shelves",
+          "Woodfill 4 shelves",
           "Sand benchtop",
           "Sand shelves",
           "Cut all trim pieces (bench, cubby, filler, ceiling)",
@@ -114,9 +114,10 @@
 
       const heading = document.createElement("h2");
       heading.textContent = block.title;
-      heading.addEventListener("click", () => taskList.classList.toggle("hidden"));
 
-      const taskList = document.createElement("div");
+      const taskList = document.createElement("div");  // moved before event listener
+
+      heading.addEventListener("click", () => taskList.classList.toggle("hidden"));
 
       block.tasks.forEach((text, j) => {
         const task = document.createElement("div");
