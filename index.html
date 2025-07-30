@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Install Prep Checklist</title>
   <style>
     body {
@@ -14,111 +14,50 @@
     }
     h2 {
       background: #222;
-4 minutes ago
-
-Update index.html
-      padding: 0.75rem;
-      margin-top: 1.5rem;
-12 minutes ago
-
-Create plan.html
+      padding: 0.5rem;
+      margin-top: 1rem;
       border-left: 4px solid orange;
       cursor: pointer;
-4 minutes ago
-
-Update index.html
-      font-size: 1.2rem;
-12 minutes ago
-
-Create plan.html
     }
     .block {
-4 minutes ago
-
-Update index.html
-      margin-bottom: 2rem;
-12 minutes ago
-
-Create plan.html
+      margin-bottom: 1rem;
     }
     .task {
-4 minutes ago
-
-Update index.html
-      display: inline-flex;
-12 minutes ago
-
-Create plan.html
-      align-items: center;
-4 minutes ago
-
-Update index.html
+      display: block; /* stacked */
+      margin: 0.3rem 0;
+      padding: 0.5rem 1rem;
       background: #222;
-      border-radius: 8px;
-      padding: 0.6rem;
-      margin: 0.5rem 0.25rem;
-      max-width: 100%;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-12 minutes ago
-
-Create plan.html
-    }
-    .task input[type="checkbox"] {
-      margin-right: 0.6rem;
-4 minutes ago
-
-Update index.html
-      transform: scale(1.4);
-12 minutes ago
-
-Create plan.html
-    }
-    .task input[type="text"] {
-      flex: 1;
-4 minutes ago
-
-Update index.html
-      background: transparent;
-12 minutes ago
-
-Create plan.html
-      color: #fff;
-4 minutes ago
-
-Update index.html
-      border: none;
+      border: 1px solid #444;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      width: fit-content; /* bubble fits text */
+      max-width: 90vw;
+      transition: background 0.3s;
       font-size: 1rem;
-      text-decoration: none;
     }
-    .task input[type="text"].completed {
+    .task.completed {
       text-decoration: line-through;
-      color: #888;
-12 minutes ago
-
-Create plan.html
+      opacity: 0.6;
+      background: #333;
     }
     .hidden { display: none; }
     .add-task {
       background: #333;
       border: none;
       color: #fff;
-4 minutes ago
-
-Update index.html
-      padding: 0.5rem 1rem;
-      margin-top: 1rem;
-12 minutes ago
-
-Create plan.html
+      padding: 0.3rem 0.6rem;
+      margin-top: 0.5rem;
       cursor: pointer;
-4 minutes ago
+      border-radius: 4px;
+    }
 
-Update index.html
-      border-radius: 6px;
-      font-size: 1rem;
-12 minutes ago
-
-Create plan.html
+    /* Larger tasks on mobile */
+    @media (max-width: 600px) {
+      .task {
+        font-size: 1.4rem;
+        padding: 0.8rem 1.4rem;
+      }
     }
   </style>
 </head>
@@ -176,7 +115,32 @@ Create plan.html
       heading.addEventListener("click", () => taskList.classList.toggle("hidden"));
 
       const taskList = document.createElement("div");
-3 minutes ago
 
-Update index.html
-      taskList.style.display = 'flex';
+      block.tasks.forEach((text, j) => {
+        const task = document.createElement("div");
+        task.className = "task";
+        task.textContent = text;
+
+        // Restore completion state
+        if(localStorage.getItem(`task-${i}-${j}`) === "true"){
+          task.classList.add("completed");
+        }
+
+        task.addEventListener("click", () => {
+          task.classList.toggle("completed");
+          localStorage.setItem(`task-${i}-${j}`, task.classList.contains("completed"));
+        });
+
+        taskList.appendChild(task);
+      });
+
+      // Add task button disabled for now (since no input)
+      // Or we can add it and prompt user for input via prompt() ?
+
+      container.appendChild(heading);
+      container.appendChild(taskList);
+      checklist.appendChild(container);
+    });
+  </script>
+</body>
+</html>
