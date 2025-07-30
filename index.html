@@ -14,33 +14,78 @@
     }
     h2 {
       background: #222;
+4 minutes ago
+
+Update index.html
       padding: 0.75rem;
       margin-top: 1.5rem;
+12 minutes ago
+
+Create plan.html
       border-left: 4px solid orange;
       cursor: pointer;
+4 minutes ago
+
+Update index.html
       font-size: 1.2rem;
+12 minutes ago
+
+Create plan.html
     }
     .block {
+4 minutes ago
+
+Update index.html
       margin-bottom: 2rem;
+12 minutes ago
+
+Create plan.html
     }
     .task {
+4 minutes ago
+
+Update index.html
       display: inline-flex;
+12 minutes ago
+
+Create plan.html
       align-items: center;
+4 minutes ago
+
+Update index.html
       background: #222;
       border-radius: 8px;
       padding: 0.6rem;
       margin: 0.5rem 0.25rem;
       max-width: 100%;
       box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+12 minutes ago
+
+Create plan.html
     }
     .task input[type="checkbox"] {
       margin-right: 0.6rem;
+4 minutes ago
+
+Update index.html
       transform: scale(1.4);
+12 minutes ago
+
+Create plan.html
     }
     .task input[type="text"] {
       flex: 1;
+4 minutes ago
+
+Update index.html
       background: transparent;
+12 minutes ago
+
+Create plan.html
       color: #fff;
+4 minutes ago
+
+Update index.html
       border: none;
       font-size: 1rem;
       text-decoration: none;
@@ -48,17 +93,32 @@
     .task input[type="text"].completed {
       text-decoration: line-through;
       color: #888;
+12 minutes ago
+
+Create plan.html
     }
     .hidden { display: none; }
     .add-task {
       background: #333;
       border: none;
       color: #fff;
+4 minutes ago
+
+Update index.html
       padding: 0.5rem 1rem;
       margin-top: 1rem;
+12 minutes ago
+
+Create plan.html
       cursor: pointer;
+4 minutes ago
+
+Update index.html
       border-radius: 6px;
       font-size: 1rem;
+12 minutes ago
+
+Create plan.html
     }
   </style>
 </head>
@@ -116,85 +176,7 @@
       heading.addEventListener("click", () => taskList.classList.toggle("hidden"));
 
       const taskList = document.createElement("div");
+3 minutes ago
+
+Update index.html
       taskList.style.display = 'flex';
-      taskList.style.flexWrap = 'wrap';
-      taskList.style.gap = '0.5rem';
-
-      block.tasks.forEach((text, j) => {
-        const task = document.createElement("div");
-        task.className = "task";
-
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        const saved = localStorage.getItem(`task-${i}-${j}`);
-        checkbox.checked = saved === "true";
-
-        const input = document.createElement("input");
-        input.type = "text";
-        input.value = text;
-
-        const savedText = localStorage.getItem(`task-text-${i}-${j}`);
-        if (savedText) input.value = savedText;
-
-        if (checkbox.checked) input.classList.add("completed");
-
-        checkbox.addEventListener("change", () => {
-          localStorage.setItem(`task-${i}-${j}`, checkbox.checked);
-          if (checkbox.checked) {
-            input.classList.add("completed");
-          } else {
-            input.classList.remove("completed");
-          }
-        });
-
-        input.addEventListener("input", () => {
-          localStorage.setItem(`task-text-${i}-${j}`, input.value);
-        });
-
-        task.appendChild(checkbox);
-        task.appendChild(input);
-        taskList.appendChild(task);
-      });
-
-      const addBtn = document.createElement("button");
-      addBtn.textContent = "+ Add Task";
-      addBtn.className = "add-task";
-      addBtn.addEventListener("click", () => {
-        const newTask = document.createElement("div");
-        newTask.className = "task";
-
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.style.transform = "scale(1.4)";
-        checkbox.style.marginRight = "0.6rem";
-
-        const input = document.createElement("input");
-        input.type = "text";
-        input.placeholder = "New task...";
-        input.style.flex = "1";
-        input.style.background = "transparent";
-        input.style.color = "#fff";
-        input.style.border = "none";
-        input.style.fontSize = "1rem";
-
-        checkbox.addEventListener("change", () => {
-          if (checkbox.checked) {
-            input.classList.add("completed");
-          } else {
-            input.classList.remove("completed");
-          }
-        });
-
-        newTask.appendChild(checkbox);
-        newTask.appendChild(input);
-        taskList.appendChild(newTask);
-      });
-
-      container.appendChild(heading);
-      container.appendChild(taskList);
-      container.appendChild(addBtn);
-      checklist.appendChild(container);
-    });
-  </script>
-</body>
-</html>
