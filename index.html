@@ -14,39 +14,51 @@
     }
     h2 {
       background: #222;
-      padding: 0.5rem;
-      margin-top: 1rem;
+      padding: 0.75rem;
+      margin-top: 1.5rem;
       border-left: 4px solid orange;
       cursor: pointer;
+      font-size: 1.2rem;
     }
     .block {
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
     .task {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      margin: 0.3rem 0;
+      background: #222;
+      border-radius: 8px;
+      padding: 0.6rem;
+      margin: 0.5rem 0.25rem;
+      max-width: 100%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
     .task input[type="checkbox"] {
       margin-right: 0.6rem;
+      transform: scale(1.4);
     }
     .task input[type="text"] {
       flex: 1;
-      background: #222;
+      background: transparent;
       color: #fff;
-      border: 1px solid #444;
-      padding: 0.3rem;
-      border-radius: 4px;
+      border: none;
+      font-size: 1rem;
+      text-decoration: none;
+    }
+    .task input[type="text"].completed {
+      text-decoration: line-through;
+      color: #888;
     }
     .hidden { display: none; }
     .add-task {
       background: #333;
       border: none;
       color: #fff;
-      padding: 0.3rem 0.6rem;
-      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      margin-top: 1rem;
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 6px;
+      font-size: 1rem;
     }
   </style>
 </head>
@@ -104,6 +116,9 @@
       heading.addEventListener("click", () => taskList.classList.toggle("hidden"));
 
       const taskList = document.createElement("div");
+      taskList.style.display = 'flex';
+      taskList.style.flexWrap = 'wrap';
+      taskList.style.gap = '0.5rem';
 
       block.tasks.forEach((text, j) => {
         const task = document.createElement("div");
@@ -113,18 +128,28 @@
         checkbox.type = "checkbox";
         const saved = localStorage.getItem(`task-${i}-${j}`);
         checkbox.checked = saved === "true";
-        checkbox.addEventListener("change", () => {
-          localStorage.setItem(`task-${i}-${j}`, checkbox.checked);
-        });
 
         const input = document.createElement("input");
         input.type = "text";
         input.value = text;
+
+        const savedText = localStorage.getItem(`task-text-${i}-${j}`);
+        if (savedText) input.value = savedText;
+
+        if (checkbox.checked) input.classList.add("completed");
+
+        checkbox.addEventListener("change", () => {
+          localStorage.setItem(`task-${i}-${j}`, checkbox.checked);
+          if (checkbox.checked) {
+            input.classList.add("completed");
+          } else {
+            input.classList.remove("completed");
+          }
+        });
+
         input.addEventListener("input", () => {
           localStorage.setItem(`task-text-${i}-${j}`, input.value);
         });
-        const savedText = localStorage.getItem(`task-text-${i}-${j}`);
-        if (savedText) input.value = savedText;
 
         task.appendChild(checkbox);
         task.appendChild(input);
@@ -140,10 +165,25 @@
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
+        checkbox.style.transform = "scale(1.4)";
+        checkbox.style.marginRight = "0.6rem";
 
         const input = document.createElement("input");
         input.type = "text";
         input.placeholder = "New task...";
+        input.style.flex = "1";
+        input.style.background = "transparent";
+        input.style.color = "#fff";
+        input.style.border = "none";
+        input.style.fontSize = "1rem";
+
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            input.classList.add("completed");
+          } else {
+            input.classList.remove("completed");
+          }
+        });
 
         newTask.appendChild(checkbox);
         newTask.appendChild(input);
